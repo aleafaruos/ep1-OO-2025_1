@@ -4,7 +4,7 @@ import java.util.List;
 
 public class aluno {
     private String nome;
-    private int idade;
+    private int matricula;
     private String curso;
     private List<String>disciplinas;
     private List<String>disciplinasTrancadas;
@@ -13,9 +13,9 @@ public class aluno {
     private int presencas;
 
 
-    public aluno(String nome, int idade, String curso,List<String>disciplinas,List<String>disciplinasTrancadas,String tipo, int presencas, int semestresTrancados){
+    public aluno(String nome, int matricula, String curso,List<String>disciplinas,List<String>disciplinasTrancadas,String tipo, int presencas, int semestresTrancados){
         this.nome="";
-        this.idade=0;
+        this.matricula=0;
         this.curso="";
         this.disciplinas = new ArrayList<>();
         this.disciplinasTrancadas=new ArrayList<>();
@@ -29,20 +29,24 @@ public class aluno {
     }
 
 
-    public int getdade(){
-        return idade;
+    public int getMatricula(){
+        return matricula;
     }
 
     public String getCurso(){
         return curso;
     }
 
-    public void adicionarDisciplinas(String disciplina){
+    public List<String> getDisciplinas() {
+        return disciplinas;
+    }    
+
+    public void adicionarDisciplina(String disciplina) {
         disciplinas.add(disciplina);
     }
-
-    public void adicionarDisciplinaTrancada(String disciplina) {
-        this.disciplinasTrancadas.add(disciplina);
+    
+    public void adicionarDisciplinaTrancada(String disciplinasTrancadas) {
+        this.disciplinasTrancadas.add(disciplinasTrancadas);
     }
     
     public String getTipo(){
@@ -56,4 +60,5 @@ public class aluno {
     public int presencas(){
         return presencas;
     }
+
 }

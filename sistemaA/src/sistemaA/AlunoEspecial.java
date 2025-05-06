@@ -1,0 +1,19 @@
+package io.github.jiangdequan;
+import java.util.List;
+
+public class AlunoEspecial extends aluno {
+    public AlunoEspecial(String nome, int matricula, String curso, List<String> disciplinas,List<String>disciplinasTrancadas,String tipo,int presencas,int semestreTrancado){
+        super(nome, matricula, curso, disciplinas, disciplinasTrancadas, tipo, presencas, semestreTrancado);
+    }
+
+    @Override
+    public void adicionarDisciplina(String disciplina) {
+        if(getDisciplinas().size() < 2) {  // Usando o getter correto
+            getDisciplinas().add(disciplina);
+        } else {
+            System.out.println("Limite de disciplinas a ser cursadas atingido!");
+        }
+    }
+
+
+}
