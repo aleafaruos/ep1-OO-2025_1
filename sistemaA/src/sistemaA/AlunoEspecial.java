@@ -1,4 +1,4 @@
-package io.github.jiangdequan;
+package sistemaA;
 import java.util.List;
 
 public class AlunoEspecial extends aluno {

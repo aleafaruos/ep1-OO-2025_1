@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Disciplina {
-    String nome;
-    String codigo;
-    int cargaHoraria;
-    List<String> preRequisitos;
+    private String nome;
+    private String codigo;
+    private int cargaHoraria;
+    private List<String> preRequisitos;
 
 
     public Disciplina(String nome, String codigo, int cargaHoraria,List<String> preRequisitos){
