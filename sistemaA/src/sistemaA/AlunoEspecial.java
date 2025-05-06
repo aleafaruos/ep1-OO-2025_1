@@ -8,7 +8,7 @@ public class AlunoEspecial extends aluno {
 
     @Override
     public void adicionarDisciplina(String disciplina) {
-        if(getDisciplinas().size() < 2) {  // Usando o getter correto
+        if(getDisciplinas().size() < 2) { 
             getDisciplinas().add(disciplina);
         } else {
             System.out.println("Limite de disciplinas a ser cursadas atingido!");
