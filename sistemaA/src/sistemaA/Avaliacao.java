@@ -6,10 +6,10 @@ public class Avaliacao {
     private double notaP3;
     private int presenca;
 
-    class avaliacao{
-        this.notaP1=0;
-        this.notap2=0;
-        this.notaP3=0;
+    public Avaliacao(double notaP1, double notaP2, double notaP3, int presenca){
+        this.notaP1=0.0;
+        this.notaP2=0.0;
+        this.notaP3=0.0;
         this.presenca=0;
     }
 
@@ -38,7 +38,7 @@ public class Avaliacao {
     }
 
     public String verificarAprovacao() {
-        double media = calcularMedia(media, media, media);
+        double media = calcularMedia(notaP1, notaP2, notaP3);
         boolean frequenciaOK = verificarFrequencia(presenca);
 
         if (frequenciaOK && media >= 6.0) {
