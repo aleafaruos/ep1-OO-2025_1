@@ -1,7 +1,7 @@
 package sistemaA;
 import java.util.List;
 
-public class AlunoNormal extends aluno{
+public class AlunoNormal extends Aluno{
     private String receberNotas;
 
 
@@ -12,6 +12,11 @@ public class AlunoNormal extends aluno{
 
     public String getReceberNotas(){
         return receberNotas;
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + getNome() + ", Matrícula: " + getMatricula() + ", Curso: " + getCurso() + ", Tipo: " + getTipo();
     }
 
 }

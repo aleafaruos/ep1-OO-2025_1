@@ -9,12 +9,12 @@ public class Disciplina {
     private List<String> preRequisitos;
 
 
-    public Disciplina(String nome, String codigo, int cargaHoraria,List<String> preRequisitos){
-        this.nome="";
-        this.codigo="";
-        this.cargaHoraria=0;
-        this.preRequisitos=new ArrayList<String>();
-}
+    public Disciplina(String nome, String codigo, int cargaHoraria, List<String> preRequisitos) {
+        this.nome = nome;
+        this.codigo = codigo;
+        this.cargaHoraria = cargaHoraria;
+        this.preRequisitos = preRequisitos;
+    }
 
     public String getNome(){
         return nome;
@@ -43,6 +43,11 @@ public class Disciplina {
 
     public boolean verificarPreRequisitos(List<String> disciplinasMatriculadas) {
         return disciplinasMatriculadas.containsAll(preRequisitos);
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + nome + ", Código: " + codigo;
     }
     
 }

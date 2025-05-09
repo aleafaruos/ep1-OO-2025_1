@@ -8,7 +8,7 @@ public class Turma {
     private String professor;
     private int horario;
     private int capacidadeMaxima;
-    private List<aluno>alunos;
+    private List<Aluno>alunos;
 
 
 
@@ -43,7 +43,7 @@ public class Turma {
 
 
 
-    public boolean matricularAluno(aluno aluno) {
+    public boolean matricularAluno(Aluno aluno) {
         if (alunos.size() < capacidadeMaxima) {
             alunos.add(aluno);
             return true; 
@@ -52,7 +52,7 @@ public class Turma {
         }
     }
 
-    public boolean removerAluno(aluno aluno) {
+    public boolean removerAluno(Aluno aluno) {
         
         if (alunos.contains(aluno)){
             alunos.remove(aluno);

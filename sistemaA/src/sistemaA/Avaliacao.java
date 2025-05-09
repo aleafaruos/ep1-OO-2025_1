@@ -6,40 +6,40 @@ public class Avaliacao {
     private double notaP3;
     private int presenca;
 
-    public Avaliacao(double notaP1, double notaP2, double notaP3, int presenca){
-        this.notaP1=0.0;
-        this.notaP2=0.0;
-        this.notaP3=0.0;
-        this.presenca=0;
+    public Avaliacao(double notaP1, double notaP2, double notaP3, int presenca) {
+        this.notaP1 = notaP1;
+        this.notaP2 = notaP2;
+        this.notaP3 = notaP3;
+        this.presenca = presenca;
     }
 
-    public double getNotaP1(){
+    public double getNotaP1() {
         return notaP1;
     }
 
-    public double getNotaP2(){
+    public double getNotaP2() {
         return notaP2;
     }
 
-    public double getNotaP3(){
+    public double getNotaP3() {
         return notaP3;
     }
 
-    public int getPresencas(){
+    public int getPresenca() {
         return presenca;
     }
 
-    public double calcularMedia(double notaP1,double notaP2,double notaP3){
-            return (notaP1+notaP2+notaP3)/2.0;
+    public double calcularMedia() {
+        return (notaP1 + notaP2 + notaP3) / 3.0;
     }
 
-    public boolean verificarFrequencia(int presenca){
-            return presenca>=75.0;
+    public boolean verificarFrequencia() {
+        return presenca >= 75;
     }
 
     public String verificarAprovacao() {
-        double media = calcularMedia(notaP1, notaP2, notaP3);
-        boolean frequenciaOK = verificarFrequencia(presenca);
+        double media = calcularMedia();
+        boolean frequenciaOK = verificarFrequencia();
 
         if (frequenciaOK && media >= 6.0) {
             return "Aprovado";
@@ -51,5 +51,4 @@ public class Avaliacao {
             return "Reprovado por nota e falta";
         }
     }
-
 }
