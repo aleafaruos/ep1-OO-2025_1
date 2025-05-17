@@ -7,7 +7,6 @@ public class Disciplina {
     private int cargaHoraria;
     private List<String> preRequisitos;
 
-
     public Disciplina(String nome, String codigo, int cargaHoraria, List<String> preRequisitos) {
         this.nome = nome;
         this.codigo = codigo;
@@ -17,23 +16,24 @@ public class Disciplina {
 
     public String getNome(){
         return nome;
-}
+    }
 
     public String getCodigo(){
         return codigo;
-}
+    }
 
     public int getCargaHoraria(){
         return cargaHoraria;
-}
+    }
 
     public List<String> getpreRequisitos(){
         return preRequisitos;
-
-}
+    }
 
     public void adicionarPreRequisito(String disciplina){
-        preRequisitos.add(disciplina);
+        if (!preRequisitos.contains(disciplina)) {
+            preRequisitos.add(disciplina);
+        }
     }
 
     public void removerPreRequisitos(String disciplina){
@@ -44,9 +44,12 @@ public class Disciplina {
         return disciplinasMatriculadas.containsAll(preRequisitos);
     }
 
+    public boolean jaEhPreRequisito(String codigoDisciplina) {
+        return preRequisitos.contains(codigoDisciplina);
+    }
+
     @Override
     public String toString() {
         return "Nome: " + nome + ", Código: " + codigo;
     }
-    
 }

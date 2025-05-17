@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static List<Disciplina> disciplinas = new ArrayList<>();
-    private static List<Aluno> alunos = new ArrayList<>();
-    private static List<Turma> turmas = new ArrayList<>();
+    private static SistemaAcademico sistema = new SistemaAcademico();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -56,13 +54,13 @@ public class Main {
                     gerarBoletimAluno();
                     break;
                 case 9:
-                    Relatorio.gerarRelatorioPorDisciplina(disciplinas, alunos);
+                    Relatorio.gerarRelatorioPorDisciplina(sistema.getDisciplinas(), sistema.getAlunos());
                     break;
                 case 10:
-                    Relatorio.gerarRelatorioPorTurma(turmas);
+                    Relatorio.gerarRelatorioPorTurma(sistema.getTurmas());
                     break;
                 case 11:
-                    Relatorio.gerarRelatorioPorProfessor(turmas);
+                    Relatorio.gerarRelatorioPorProfessor(sistema.getTurmas());
                     break;
                 case 0:
                     System.out.println("Encerrando o sistema.");
@@ -79,7 +77,7 @@ public class Main {
         scanner.nextLine();
         System.out.print("Nome da disciplina: ");
         String nome = scanner.nextLine();
-        disciplinas.add(new Disciplina(codigo, nome));
+        sistema.adicionarDisciplina(new Disciplina(codigo, nome));
         System.out.println("Disciplina cadastrada.");
     }
 
@@ -92,7 +90,7 @@ public class Main {
         int codigoDisciplina = scanner.nextInt();
         scanner.nextLine();
 
-        Disciplina disciplina = buscarDisciplinaPorCodigo(codigoDisciplina);
+        Disciplina disciplina = sistema.buscarDisciplinaPorCodigo(codigoDisciplina);
         if (disciplina == null) {
             System.out.println("Disciplina não encontrada.");
             return;
@@ -106,9 +104,10 @@ public class Main {
 
         System.out.print("Capacidade máxima: ");
         int capacidade = scanner.nextInt();
+        scanner.nextLine();
 
         Turma turma = new Turma(codigoTurma, disciplina, professor, horario, capacidade);
-        turmas.add(turma);
+        sistema.adicionarTurma(turma);
         System.out.println("Turma criada com sucesso.");
     }
 
@@ -130,12 +129,13 @@ public class Main {
         List<Disciplina> disciplinasAluno = new ArrayList<>();
         List<Boolean> presencasAluno = new ArrayList<>();
 
-        if (disciplinas.isEmpty()) {
+        if (sistema.getDisciplinas().isEmpty()) {
             System.out.println("Nenhuma disciplina cadastrada no sistema. Cadastre uma disciplina antes.");
             return;
         }
 
         System.out.println("Disciplinas disponíveis:");
+        List<Disciplina> disciplinas = sistema.getDisciplinas();
         for (int i = 0; i < disciplinas.size(); i++) {
             System.out.println((i + 1) + ". " + disciplinas.get(i).getNome());
         }
@@ -174,15 +174,16 @@ public class Main {
             return;
         }
 
-        alunos.add(aluno);
+        sistema.adicionarAluno(aluno);
         System.out.println("Aluno cadastrado com sucesso.");
     }
 
     private static void matricularAlunoEmTurma() {
         System.out.print("Matrícula do aluno: ");
         int matricula = scanner.nextInt();
+        scanner.nextLine();
 
-        Aluno aluno = buscarAlunoPorMatricula(matricula);
+        Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
             System.out.println("Aluno não encontrado.");
             return;
@@ -190,8 +191,9 @@ public class Main {
 
         System.out.print("Código da turma: ");
         int codigoTurma = scanner.nextInt();
+        scanner.nextLine();
 
-        Turma turma = buscarTurmaPorCodigo(codigoTurma);
+        Turma turma = sistema.buscarTurmaPorCodigo(codigoTurma);
         if (turma == null) {
             System.out.println("Turma não encontrada.");
             return;
@@ -208,8 +210,9 @@ public class Main {
     private static void listarAlunosPorTurma() {
         System.out.print("Código da turma: ");
         int codigoTurma = scanner.nextInt();
+        scanner.nextLine();
 
-        Turma turma = buscarTurmaPorCodigo(codigoTurma);
+        Turma turma = sistema.buscarTurmaPorCodigo(codigoTurma);
         if (turma == null) {
             System.out.println("Turma não encontrada.");
             return;
@@ -224,7 +227,7 @@ public class Main {
         int matricula = scanner.nextInt();
         scanner.nextLine();
 
-        Aluno aluno = buscarAlunoPorMatricula(matricula);
+        Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
             System.out.println("Aluno não encontrado.");
             return;
@@ -234,7 +237,7 @@ public class Main {
         int codigoDisciplina = scanner.nextInt();
         scanner.nextLine();
 
-        Disciplina disciplina = buscarDisciplinaPorCodigo(codigoDisciplina);
+        Disciplina disciplina = sistema.buscarDisciplinaPorCodigo(codigoDisciplina);
         if (disciplina == null) {
             System.out.println("Disciplina não encontrada.");
             return;
@@ -263,7 +266,7 @@ public class Main {
         int matricula = scanner.nextInt();
         scanner.nextLine();
 
-        Aluno aluno = buscarAlunoPorMatricula(matricula);
+        Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
             System.out.println("Aluno não encontrado.");
             return;
@@ -273,7 +276,7 @@ public class Main {
         int codigoDisciplina = scanner.nextInt();
         scanner.nextLine();
 
-        Disciplina disciplina = buscarDisciplinaPorCodigo(codigoDisciplina);
+        Disciplina disciplina = sistema.buscarDisciplinaPorCodigo(codigoDisciplina);
         if (disciplina == null) {
             System.out.println("Disciplina não encontrada.");
             return;
@@ -284,58 +287,31 @@ public class Main {
             return;
         }
 
-        System.out.print("Aluno presente? (s/n): ");
-        String presenca = scanner.nextLine().trim().toLowerCase();
+        System.out.print("Aluno presente? (S/N): ");
+        String presente = scanner.nextLine().toUpperCase();
 
-        if (presenca.equals("s")) {
+        if (presente.equals("S")) {
             aluno.registrarPresenca(disciplina, true);
-            System.out.println("Presença registrada como presente.");
-        } else if (presenca.equals("n")) {
+            System.out.println("Presença registrada.");
+        } else if (presente.equals("N")) {
             aluno.registrarPresenca(disciplina, false);
-            System.out.println("Presença registrada como ausente.");
+            System.out.println("Falta registrada.");
         } else {
             System.out.println("Entrada inválida.");
         }
     }
 
     private static void gerarBoletimAluno() {
-        System.out.print("Digite a matrícula do aluno: ");
+        System.out.print("Matrícula do aluno: ");
         int matricula = scanner.nextInt();
         scanner.nextLine();
 
-        Aluno aluno = buscarAlunoPorMatricula(matricula);
+        Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
             System.out.println("Aluno não encontrado.");
             return;
         }
 
         aluno.gerarBoletim();
-    }
-
-    private static Disciplina buscarDisciplinaPorCodigo(int codigo) {
-        for (Disciplina d : disciplinas) {
-            if (d.getCodigo() == codigo) {
-                return d;
-            }
-        }
-        return null;
-    }
-
-    private static Aluno buscarAlunoPorMatricula(int matricula) {
-        for (Aluno a : alunos) {
-            if (a.getMatricula() == matricula) {
-                return a;
-            }
-        }
-        return null;
-    }
-
-    private static Turma buscarTurmaPorCodigo(int codigo) {
-        for (Turma t : turmas) {
-            if (t.getCodigodeTurma() == codigo) {
-                return t;
-            }
-        }
-        return null;
     }
 }
