@@ -81,6 +81,42 @@ public class Aluno {
         }
     }
 
+    public boolean trancarDisciplina(String disciplina) {
+        if (disciplinas.contains(disciplina)) {
+            disciplinas.remove(disciplina);
+            disciplinasTrancadas.add(disciplina);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean retomarDisciplina(String disciplina) {
+        if (disciplinasTrancadas.contains(disciplina)) {
+            disciplinasTrancadas.remove(disciplina);
+            disciplinas.add(disciplina);
+            return true;
+        }
+        return false;
+    }
+
+    public void trancarMatricula() {
+        this.semestreTrancado++;
+        System.out.println("Matrícula trancada. Total de semestres trancados: " + semestreTrancado);
+    }
+
+    public void retomarMatricula() {
+        if (semestreTrancado > 0) {
+            this.semestreTrancado = 0;
+            System.out.println("Matrícula retomada.");
+        } else {
+            System.out.println("A matrícula não estava trancada.");
+        }
+    }
+
+    public boolean isMatriculaTrancada() {
+        return semestreTrancado > 0;
+    }
+
     @Override
     public String toString() {
         return "Nome: " + nome + ", Matrícula: " + matricula + ", Curso: " + curso + ", Tipo: " + tipo + ", Presenças: " + presencas;

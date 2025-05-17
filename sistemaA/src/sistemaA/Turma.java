@@ -8,40 +8,49 @@ public class Turma {
     private String professor;
     private int horario;
     private int capacidadeMaxima;
-    private List<Aluno>alunos;
+    private List<Aluno> alunos;
 
-
-
-    public Turma(){
-        this.codigodeTurma=0;
-        this.disciplina=null;
-        this.professor="";
-        this.horario=0;
-        this.capacidadeMaxima=0;
+    public Turma() {
+        this.codigodeTurma = 0;
+        this.disciplina = null;
+        this.professor = "";
+        this.horario = 0;
+        this.capacidadeMaxima = 0;
         this.alunos = new ArrayList<>();
     }
 
-    public int getCodigodeTurma(){
+    public Turma(int codigodeTurma, Disciplina disciplina, String professor, int horario, int capacidadeMaxima) {
+        this.codigodeTurma = codigodeTurma;
+        this.disciplina = disciplina;
+        this.professor = professor;
+        this.horario = horario;
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.alunos = new ArrayList<>();
+    }
+
+    public int getCodigodeTurma() {
         return codigodeTurma;
     }
 
-    public Disciplina getDisciplina(){
+    public Disciplina getDisciplina() {
         return disciplina;
     }
 
-    public String getProfessor(){
+    public String getProfessor() {
         return professor;
     }
 
-    public int getHorario(){
+    public int getHorario() {
         return horario;
     }
 
-    public int getCapacidadeMaxima(){
+    public int getCapacidadeMaxima() {
         return capacidadeMaxima;
     }
 
-
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
 
     public boolean matricularAluno(Aluno aluno) {
         if (alunos.size() < capacidadeMaxima) {
@@ -53,14 +62,11 @@ public class Turma {
     }
 
     public boolean removerAluno(Aluno aluno) {
-        
-        if (alunos.contains(aluno)){
+        if (alunos.contains(aluno)) {
             alunos.remove(aluno);
-            System.out.println("aluno removido"); 
+            System.out.println("Aluno removido"); 
             return true;  
-            
-        }
-         else {
+        } else {
             System.out.println("Aluno não encontrado");
             return false;  
         }
@@ -70,4 +76,13 @@ public class Turma {
         return alunos.size() < capacidadeMaxima;
     }
 
+    public void listarAlunos() {
+        if (alunos.isEmpty()) {
+            System.out.println("Nenhum aluno matriculado nesta turma.");
+        } else {
+            for (Aluno aluno : alunos) {
+                System.out.println("RA: " + aluno.getRa() + " | Nome: " + aluno.getNome());
+            }
+        }
+    }
 }
