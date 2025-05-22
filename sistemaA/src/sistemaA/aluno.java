@@ -146,6 +146,20 @@ public class Aluno {
         return soma / avaliacoesDisciplina.size();
     }
 
+    public void exibirBoletim() {
+        System.out.println("Boletim do aluno: " + nome);
+        for (String codDisc : disciplinas) {
+            System.out.println("Disciplina: " + codDisc);
+            double media = calcularMediaPorDisciplina(codDisc);
+            System.out.printf("Média: %.2f\n", media);
+            List<Avaliacao> avals = getAvaliacoesPorDisciplina(codDisc);
+            for (Avaliacao a : avals) {
+                System.out.println("  " + a.getNomeAvaliacao() + ": " + a.getNota());
+            }
+        }
+        System.out.println("Presenças totais: " + presencas);
+    }
+
     @Override
     public String toString() {
         return "Nome: " + nome + ", Matrícula: " + matricula + ", Curso: " + curso + ", Tipo: " + tipo + ", Presenças: " + presencas;

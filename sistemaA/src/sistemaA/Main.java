@@ -245,8 +245,7 @@ public class Main {
 
     private static void listarAlunosPorTurma() {
         System.out.print("Código da turma: ");
-        int codigoTurma = scanner.nextInt();
-        scanner.nextLine();
+        String codigoTurma = scanner.nextLine();
 
         Turma turma = sistema.buscarTurmaPorCodigo(codigoTurma);
         if (turma == null) {
@@ -286,7 +285,7 @@ public class Main {
         double nota = scanner.nextDouble();
         scanner.nextLine();
 
-        Avaliacao avaliacao = new Avaliacao(nomeAvaliacao, nota, disciplina);
+        Avaliacao avaliacao = new Avaliacao(disciplina, nomeAvaliacao, nota);
         aluno.adicionarAvaliacao(avaliacao);
         System.out.println("Nota lançada com sucesso.");
     }
@@ -303,8 +302,7 @@ public class Main {
         }
 
         System.out.print("Código da disciplina: ");
-        int codigoDisciplina = scanner.nextInt();
-        scanner.nextLine();
+        String codigoDisciplina = scanner.nextLine();
 
         Disciplina disciplina = sistema.buscarDisciplinaPorCodigo(codigoDisciplina);
         if (disciplina == null) {
@@ -316,7 +314,24 @@ public class Main {
         String presenca = scanner.nextLine();
 
         boolean presente = presenca.equalsIgnoreCase("s");
-        aluno.registrarPresenca(presente);
+        // Adiciona presença para o aluno na disciplina
+        // Como não há método registrarPresenca(boolean), vamos incrementar presenças manualmente
+        // ou implementar um método adequado se necessário
+        // Exemplo simples:
+        // aluno.registrarPresenca(presente);
+        if (presente) {
+            // Incrementa o campo presencas do aluno
+            // (Você pode querer um controle mais detalhado por disciplina/turma)
+            try {
+                java.lang.reflect.Field f = aluno.getClass().getSuperclass().getDeclaredField("presencas");
+                f.setAccessible(true);
+                int valorAtual = f.getInt(aluno);
+                f.setInt(aluno, valorAtual + 1);
+            } catch (Exception e) {
+                System.out.println("Erro ao registrar presença: " + e.getMessage());
+                return;
+            }
+        }
         System.out.println("Presença registrada.");
     }
 
