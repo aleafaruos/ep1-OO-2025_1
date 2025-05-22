@@ -1,4 +1,5 @@
 package sistemaA;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +14,14 @@ public class Aluno {
     private int presencas;
     private List<Avaliacao> avaliacoes;
 
-    public Aluno(String nome, int matricula, String curso, List<String> disciplinas, List<String> disciplinasTrancadas, String tipo, int presencas, int semestresTrancados) {
+    public Aluno(String nome, int matricula, String curso, List<String> disciplinas, List<String> disciplinasTrancadas, String tipo, int presencas, int semestreTrancado) {
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
         this.disciplinas = disciplinas != null ? disciplinas : new ArrayList<>();
         this.disciplinasTrancadas = disciplinasTrancadas != null ? disciplinasTrancadas : new ArrayList<>();
         this.tipo = tipo;
-        this.semestreTrancado = semestresTrancados;
+        this.semestreTrancado = semestreTrancado;
         this.presencas = presencas;
         this.avaliacoes = new ArrayList<>();
     }
@@ -29,12 +30,20 @@ public class Aluno {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public int getMatricula() {
         return matricula;
     }
 
     public String getCurso() {
         return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
     }
 
     public List<String> getDisciplinas() {
@@ -115,6 +124,26 @@ public class Aluno {
 
     public boolean isMatriculaTrancada() {
         return semestreTrancado > 0;
+    }
+
+    public List<Avaliacao> getAvaliacoesPorDisciplina(String codigoDisciplina) {
+        List<Avaliacao> avaliacoesDisciplina = new ArrayList<>();
+        for (Avaliacao a : avaliacoes) {
+            if (a.getDisciplina().getCodigo().equals(codigoDisciplina)) {
+                avaliacoesDisciplina.add(a);
+            }
+        }
+        return avaliacoesDisciplina;
+    }
+
+    public double calcularMediaPorDisciplina(String codigoDisciplina) {
+        List<Avaliacao> avaliacoesDisciplina = getAvaliacoesPorDisciplina(codigoDisciplina);
+        if (avaliacoesDisciplina.isEmpty()) return 0;
+        double soma = 0;
+        for (Avaliacao a : avaliacoesDisciplina) {
+            soma += a.getNota();
+        }
+        return soma / avaliacoesDisciplina.size();
     }
 
     @Override

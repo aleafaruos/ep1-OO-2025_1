@@ -30,7 +30,7 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    cadastrarDisciplina();
+                    cadastrarDisciplina(sistema, scanner);
                     break;
                 case 2:
                     criarTurma();
@@ -57,7 +57,9 @@ public class Main {
                     Relatorio.gerarRelatorioPorDisciplina(sistema.getDisciplinas(), sistema.getAlunos());
                     break;
                 case 10:
-                    Relatorio.gerarRelatorioPorTurma(sistema.getTurmas());
+                    for (Turma turma : sistema.getTurmas()) {
+                        Relatorio.gerarRelatorioPorTurma(turma);
+                    }
                     break;
                 case 11:
                     Relatorio.gerarRelatorioPorProfessor(sistema.getTurmas());
@@ -71,14 +73,49 @@ public class Main {
         } while (opcao != 0);
     }
 
-    private static void cadastrarDisciplina() {
-        System.out.print("Código da disciplina: ");
-        int codigo = scanner.nextInt();
-        scanner.nextLine();
+    public static void cadastrarDisciplina(SistemaAcademico sistema, Scanner scanner) {
         System.out.print("Nome da disciplina: ");
         String nome = scanner.nextLine();
-        sistema.adicionarDisciplina(new Disciplina(codigo, nome));
-        System.out.println("Disciplina cadastrada.");
+
+        System.out.print("Código da disciplina: ");
+        String codigo = scanner.nextLine();
+
+        int cargaHoraria = 0;
+        boolean entradaValida = false;
+
+        while (!entradaValida) {
+            System.out.print("Carga horária da disciplina (em horas): ");
+            String entrada = scanner.nextLine().replaceAll("[^\\d]", ""); // Remove tudo que não for número
+            try {
+                cargaHoraria = Integer.parseInt(entrada);
+                entradaValida = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor, digite apenas números para a carga horária (ex: 60).");
+            }
+        }
+
+        List<String> preRequisitos = new ArrayList<>();
+        System.out.print("A disciplina possui pré-requisitos? (s/n): ");
+        String resposta = scanner.nextLine();
+
+        if (resposta.equalsIgnoreCase("s")) {
+            boolean adicionando = true;
+            while (adicionando) {
+                System.out.print("Digite o código do pré-requisito: ");
+                String pre = scanner.nextLine();
+                preRequisitos.add(pre);
+
+                System.out.print("Deseja adicionar outro pré-requisito? (s/n): ");
+                String continuar = scanner.nextLine();
+                if (!continuar.equalsIgnoreCase("s")) {
+                    adicionando = false;
+                }
+            }
+        }
+
+        Disciplina disciplina = new Disciplina(nome, codigo, cargaHoraria, preRequisitos);
+        sistema.cadastrarDisciplina(disciplina);
+        System.out.println("Disciplina cadastrada com sucesso.");
     }
 
     private static void criarTurma() {
@@ -243,21 +280,15 @@ public class Main {
             return;
         }
 
-        if (!aluno.getDisciplinas().contains(disciplina)) {
-            System.out.println("Aluno não está matriculado nessa disciplina.");
-            return;
-        }
+        System.out.print("Nome da avaliação: ");
+        String nomeAvaliacao = scanner.nextLine();
 
-        System.out.print("Nota da avaliação (0.0 a 10.0): ");
+        System.out.print("Nota da avaliação: ");
         double nota = scanner.nextDouble();
         scanner.nextLine();
 
-        if (nota < 0.0 || nota > 10.0) {
-            System.out.println("Nota inválida.");
-            return;
-        }
-
-        aluno.lancarNota(disciplina, nota);
+        Avaliacao avaliacao = new Avaliacao(nomeAvaliacao, nota, disciplina);
+        aluno.adicionarAvaliacao(avaliacao);
         System.out.println("Nota lançada com sucesso.");
     }
 
@@ -282,23 +313,12 @@ public class Main {
             return;
         }
 
-        if (!aluno.getDisciplinas().contains(disciplina)) {
-            System.out.println("Aluno não está matriculado nessa disciplina.");
-            return;
-        }
+        System.out.print("Aluno presente? (s/n): ");
+        String presenca = scanner.nextLine();
 
-        System.out.print("Aluno presente? (S/N): ");
-        String presente = scanner.nextLine().toUpperCase();
-
-        if (presente.equals("S")) {
-            aluno.registrarPresenca(disciplina, true);
-            System.out.println("Presença registrada.");
-        } else if (presente.equals("N")) {
-            aluno.registrarPresenca(disciplina, false);
-            System.out.println("Falta registrada.");
-        } else {
-            System.out.println("Entrada inválida.");
-        }
+        boolean presente = presenca.equalsIgnoreCase("s");
+        aluno.registrarPresenca(presente);
+        System.out.println("Presença registrada.");
     }
 
     private static void gerarBoletimAluno() {
@@ -312,6 +332,6 @@ public class Main {
             return;
         }
 
-        aluno.gerarBoletim();
+        aluno.exibirBoletim();
     }
 }

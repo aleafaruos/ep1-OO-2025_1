@@ -8,6 +8,7 @@ import java.util.Map;
 public class Turma {
     private String codigo;
     private Disciplina disciplina;
+    private Professor professor; // Novo atributo
     private List<Aluno> alunosMatriculados;
     private Map<Integer, Integer> presencas;
 
@@ -16,6 +17,7 @@ public class Turma {
         this.disciplina = disciplina;
         this.alunosMatriculados = new ArrayList<>();
         this.presencas = new HashMap<>();
+        this.professor = null; // Inicialmente sem professor
     }
 
     public String getCodigo() {
@@ -28,6 +30,15 @@ public class Turma {
 
     public List<Aluno> getAlunosMatriculados() {
         return alunosMatriculados;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+        professor.adicionarTurma(this); // Vincula a turma ao professor também
     }
 
     public void adicionarAluno(Aluno aluno) {
@@ -55,10 +66,13 @@ public class Turma {
     }
 
     public void listarAlunos() {
+        System.out.println("Alunos matriculados na turma " + codigo + ":");
+        if (professor != null) {
+            System.out.println("Professor responsável: " + professor.getNome());
+        }
         if (alunosMatriculados.isEmpty()) {
             System.out.println("Nenhum aluno matriculado nesta turma.");
         } else {
-            System.out.println("Alunos matriculados na turma " + codigo + ":");
             for (Aluno aluno : alunosMatriculados) {
                 System.out.println(aluno);
             }

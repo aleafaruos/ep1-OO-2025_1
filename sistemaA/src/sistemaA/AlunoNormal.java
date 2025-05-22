@@ -1,22 +1,28 @@
 package sistemaA;
+
 import java.util.List;
 
-public class AlunoNormal extends Aluno{
-    private String receberNotas;
+public class AlunoNormal extends Aluno {
+    private boolean receberNotas;
 
-
-    public AlunoNormal(String nome, int matricula, String curso, List<String>disciplinas, List<String>disciplinasTrancadas,String tipo, int presencas, int semestresTrancados){
-        super(nome,matricula,curso,disciplinas,disciplinasTrancadas,tipo,presencas,semestresTrancados);
-        this.receberNotas="";
+    public AlunoNormal(String nome, int matricula, String curso, List<String> disciplinas, List<String> disciplinasTrancadas,
+                       String tipo, int presencas, int semestreTrancado, boolean receberNotas) {
+        super(nome, matricula, curso, disciplinas, disciplinasTrancadas, tipo, presencas, semestreTrancado);
+        this.receberNotas = receberNotas;
     }
 
-    public String getReceberNotas(){
+    public boolean isReceberNotas() {
         return receberNotas;
     }
 
-    @Override
-    public String toString() {
-        return "Nome: " + getNome() + ", Matrícula: " + getMatricula() + ", Curso: " + getCurso() + ", Tipo: " + getTipo();
+    public void setReceberNotas(boolean receberNotas) {
+        this.receberNotas = receberNotas;
     }
 
+    @Override
+    public void adicionarDisciplina(String disciplina) {
+        if (!getDisciplinas().contains(disciplina)) {
+            super.adicionarDisciplina(disciplina);
+        }
+    }
 }

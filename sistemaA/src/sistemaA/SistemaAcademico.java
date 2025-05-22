@@ -135,6 +135,47 @@ public class SistemaAcademico {
         return frequencia;
     }
 
+    public boolean lancarNota(int matriculaAluno, String codigoTurma, double nota, String tipoAvaliacao) {
+        Turma turma = buscarTurmaPorCodigo(codigoTurma);
+        if (turma == null) {
+            System.out.println("Turma com código " + codigoTurma + " não encontrada.");
+            return false;
+        }
+        Aluno aluno = buscarAlunoPorMatricula(matriculaAluno);
+        if (aluno == null) {
+            System.out.println("Aluno com matrícula " + matriculaAluno + " não encontrado.");
+            return false;
+        }
+        if (!turma.getAlunosMatriculados().contains(aluno)) {
+            System.out.println("Aluno não está matriculado na turma " + codigoTurma);
+            return false;
+        }
+        Avaliacao avaliacao = new Avaliacao(tipoAvaliacao, nota);
+        aluno.adicionarAvaliacao(avaliacao);
+        System.out.println("Nota lançada: " + nota + " para o aluno " + aluno.getNome() + " na turma " + codigoTurma);
+        return true;
+    }
+
+    public void listarDisciplinas() {
+        if (disciplinas.isEmpty()) {
+            System.out.println("Nenhuma disciplina cadastrada.");
+            return;
+        }
+        for (Disciplina d : disciplinas) {
+            System.out.println("Código: " + d.getCodigo() + ", Nome: " + d.getNome());
+        }
+    }
+
+    public void listarTurmas() {
+        if (turmas.isEmpty()) {
+            System.out.println("Nenhuma turma cadastrada.");
+            return;
+        }
+        for (Turma t : turmas) {
+            System.out.println("Código: " + t.getCodigo() + ", Disciplina: " + t.getDisciplina().getNome());
+        }
+    }
+
     public List<Aluno> getAlunos() {
         return alunos;
     }
