@@ -8,16 +8,21 @@ import java.util.Map;
 public class Turma {
     private String codigo;
     private Disciplina disciplina;
-    private Professor professor; // Novo atributo
+    private Professor professor;
     private List<Aluno> alunosMatriculados;
     private Map<Integer, Integer> presencas;
+    private int capacidade;
 
-    public Turma(String codigo, Disciplina disciplina) {
+    public Turma(String codigo, Disciplina disciplina, Professor professor, int capacidade) {
         this.codigo = codigo;
         this.disciplina = disciplina;
+        this.professor = professor;
+        this.capacidade = capacidade;
         this.alunosMatriculados = new ArrayList<>();
         this.presencas = new HashMap<>();
-        this.professor = null; // Inicialmente sem professor
+        if (professor != null) {
+            professor.adicionarTurma(this);
+        }
     }
 
     public String getCodigo() {
@@ -28,30 +33,33 @@ public class Turma {
         return disciplina;
     }
 
-    public List<Aluno> getAlunosMatriculados() {
-        return alunosMatriculados;
-    }
-
     public Professor getProfessor() {
         return professor;
     }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-        professor.adicionarTurma(this); // Vincula a turma ao professor também
+    public List<Aluno> getAlunosMatriculados() {
+        return alunosMatriculados;
     }
 
-    public void adicionarAluno(Aluno aluno) {
+    public int getCapacidade() {
+        return capacidade;
+    }
+
+    public boolean matricularAluno(Aluno aluno) {
+        if (alunosMatriculados.size() >= capacidade) {
+            return false;
+        }
         if (!alunosMatriculados.contains(aluno)) {
             alunosMatriculados.add(aluno);
             presencas.put(aluno.getMatricula(), 0);
+            return true;
         }
+        return false;
     }
 
     public void registrarPresenca(int matriculaAluno) {
         if (presencas.containsKey(matriculaAluno)) {
-            int presencasAtuais = presencas.get(matriculaAluno);
-            presencas.put(matriculaAluno, presencasAtuais + 1);
+            presencas.put(matriculaAluno, presencas.get(matriculaAluno) + 1);
         }
     }
 

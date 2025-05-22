@@ -120,12 +120,10 @@ public class Main {
 
     private static void criarTurma() {
         System.out.print("Código da turma: ");
-        int codigoTurma = scanner.nextInt();
-        scanner.nextLine();
+        String codigoTurma = scanner.nextLine();
 
         System.out.print("Código da disciplina da turma: ");
-        int codigoDisciplina = scanner.nextInt();
-        scanner.nextLine();
+        String codigoDisciplina = scanner.nextLine();
 
         Disciplina disciplina = sistema.buscarDisciplinaPorCodigo(codigoDisciplina);
         if (disciplina == null) {
@@ -133,18 +131,20 @@ public class Main {
             return;
         }
 
-        System.out.print("Professor responsável: ");
-        String professor = scanner.nextLine();
-
-        System.out.print("Horário (ex: 10 para 10h): ");
-        int horario = scanner.nextInt();
+        System.out.print("Nome do professor responsável: ");
+        String nomeProfessor = scanner.nextLine();
+        System.out.print("CPF do professor: ");
+        String cpfProfessor = scanner.nextLine();
+        System.out.print("Email do professor: ");
+        String emailProfessor = scanner.nextLine();
+        Professor professor = new Professor(nomeProfessor, cpfProfessor, emailProfessor);
 
         System.out.print("Capacidade máxima: ");
         int capacidade = scanner.nextInt();
         scanner.nextLine();
 
-        Turma turma = new Turma(codigoTurma, disciplina, professor, horario, capacidade);
-        sistema.adicionarTurma(turma);
+        Turma turma = new Turma(codigoTurma, disciplina, professor, capacidade);
+        sistema.cadastrarTurma(turma);
         System.out.println("Turma criada com sucesso.");
     }
 
@@ -163,31 +163,26 @@ public class Main {
         int tipo = scanner.nextInt();
         scanner.nextLine();
 
-        List<Disciplina> disciplinasAluno = new ArrayList<>();
-        List<Boolean> presencasAluno = new ArrayList<>();
-
-        if (sistema.getDisciplinas().isEmpty()) {
+        List<Disciplina> disciplinasDisponiveis = sistema.getDisciplinas();
+        if (disciplinasDisponiveis.isEmpty()) {
             System.out.println("Nenhuma disciplina cadastrada no sistema. Cadastre uma disciplina antes.");
             return;
         }
 
         System.out.println("Disciplinas disponíveis:");
-        List<Disciplina> disciplinas = sistema.getDisciplinas();
-        for (int i = 0; i < disciplinas.size(); i++) {
-            System.out.println((i + 1) + ". " + disciplinas.get(i).getNome());
+        for (int i = 0; i < disciplinasDisponiveis.size(); i++) {
+            System.out.println((i + 1) + ". " + disciplinasDisponiveis.get(i).getNome());
         }
 
         System.out.println("Digite os números das disciplinas que o aluno vai cursar, separados por vírgula:");
         String input = scanner.nextLine();
         String[] partes = input.split(",");
-
+        List<String> disciplinasAluno = new ArrayList<>();
         for (String parte : partes) {
             try {
                 int indice = Integer.parseInt(parte.trim()) - 1;
-                if (indice >= 0 && indice < disciplinas.size()) {
-                    Disciplina disc = disciplinas.get(indice);
-                    disciplinasAluno.add(disc);
-                    presencasAluno.add(false);
+                if (indice >= 0 && indice < disciplinasDisponiveis.size()) {
+                    disciplinasAluno.add(disciplinasDisponiveis.get(indice).getCodigo());
                 } else {
                     System.out.println("Número inválido ignorado: " + (indice + 1));
                 }
@@ -201,17 +196,21 @@ public class Main {
             return;
         }
 
-        Aluno aluno;
-        if (tipo == 1) {
-            aluno = new AlunoNormal(nome, matricula, curso, disciplinasAluno, presencasAluno);
-        } else if (tipo == 2) {
-            aluno = new AlunoEspecial(nome, matricula, curso, disciplinasAluno, presencasAluno);
-        } else {
+        List<String> disciplinasTrancadas = new ArrayList<>();
+        String tipoAluno = (tipo == 1) ? "normal" : (tipo == 2) ? "especial" : "";
+        if (tipoAluno.isEmpty()) {
             System.out.println("Tipo inválido! Cadastro cancelado.");
             return;
         }
 
-        sistema.adicionarAluno(aluno);
+        Aluno aluno;
+        if (tipo == 1) {
+            aluno = new AlunoNormal(nome, matricula, curso, disciplinasAluno, disciplinasTrancadas, tipoAluno, 0, 0, true);
+        } else {
+            aluno = new AlunoEspecial(nome, matricula, curso, disciplinasAluno, disciplinasTrancadas, tipoAluno, 0, 0);
+        }
+
+        sistema.cadastrarAluno(aluno);
         System.out.println("Aluno cadastrado com sucesso.");
     }
 
@@ -227,7 +226,7 @@ public class Main {
         }
 
         System.out.print("Código da turma: ");
-        int codigoTurma = scanner.nextInt();
+        String codigoTurma = scanner.nextLine();  
         scanner.nextLine();
 
         Turma turma = sistema.buscarTurmaPorCodigo(codigoTurma);
@@ -270,8 +269,8 @@ public class Main {
             return;
         }
 
-        System.out.print("Código da disciplina: ");
-        int codigoDisciplina = scanner.nextInt();
+        System.out.print("Código da disciplina da turma: ");
+        String codigoDisciplina = scanner.nextLine();
         scanner.nextLine();
 
         Disciplina disciplina = sistema.buscarDisciplinaPorCodigo(codigoDisciplina);
