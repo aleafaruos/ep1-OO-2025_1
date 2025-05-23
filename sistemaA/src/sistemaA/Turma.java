@@ -12,6 +12,8 @@ public class Turma {
     private List<Aluno> alunosMatriculados;
     private Map<Integer, Integer> presencas;
     private int capacidade;
+    private int totalAulas;
+    private int tipoAvaliacao;
 
     public Turma(String codigo, Disciplina disciplina, Professor professor, int capacidade) {
         this.codigo = codigo;
@@ -20,6 +22,8 @@ public class Turma {
         this.capacidade = capacidade;
         this.alunosMatriculados = new ArrayList<>();
         this.presencas = new HashMap<>();
+        this.totalAulas = 0;
+        this.tipoAvaliacao = 1;
         if (professor != null) {
             professor.adicionarTurma(this);
         }
@@ -43,6 +47,22 @@ public class Turma {
 
     public int getCapacidade() {
         return capacidade;
+    }
+
+    public int getTotalAulas() {
+        return totalAulas;
+    }
+
+    public void setTotalAulas(int totalAulas) {
+        this.totalAulas = totalAulas;
+    }
+
+    public int getTipoAvaliacao() {
+        return tipoAvaliacao;
+    }
+
+    public void setTipoAvaliacao(int tipoAvaliacao) {
+        this.tipoAvaliacao = tipoAvaliacao;
     }
 
     public boolean matricularAluno(Aluno aluno) {

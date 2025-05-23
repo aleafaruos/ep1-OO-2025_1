@@ -7,13 +7,18 @@ public class Relatorio {
     public static void gerarRelatorioPorTurma(Turma turma) {
         System.out.println("=== Relatório da Turma: " + turma.getCodigo() + " ===");
 
-        List<Aluno> alunos = turma.getAlunos();
+        List<Aluno> alunos = turma.getAlunosMatriculados();
         int totalAulas = turma.getTotalAulas();
 
         for (Aluno aluno : alunos) {
             double media = calcularMedia(aluno, turma);
             double frequencia = calcularFrequencia(aluno, totalAulas);
-            String situacao = obterSituacao(media, frequencia);
+            String situacao = "Indefinido";
+            try {
+                situacao = obterSituacao(media, frequencia);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             System.out.printf("Aluno: %s | Média: %.2f | Frequência: %.2f%% | Situação: %s\n",
                     aluno.getNome(), media, frequencia, situacao);
@@ -22,11 +27,13 @@ public class Relatorio {
         System.out.println("======================================");
     }
 
-    public double calcularMedia(Aluno aluno, Turma turma) {
+    public static double calcularMedia(Aluno aluno, Turma turma) {
         List<Avaliacao> avaliacoes = aluno.getAvaliacoes();
         double p1 = 0, p2 = 0, p3 = 0, l = 0, s = 0;
 
         for (Avaliacao a : avaliacoes) {
+            if (!a.getDisciplina().equals(turma.getDisciplina())) continue;
+
             switch (a.getTipo()) {
                 case "P1": p1 = a.getNota(); break;
                 case "P2": p2 = a.getNota(); break;
@@ -43,12 +50,12 @@ public class Relatorio {
         }
     }
 
-    public double calcularFrequencia(Aluno aluno, int totalAulas) {
-        int presencas = aluno.getPresencas().size();
+    public static double calcularFrequencia(Aluno aluno, int totalAulas) {
+        int presencas = aluno.getPresencas();
         return (presencas * 100.0) / totalAulas;
     }
 
-    public String obterSituacao(double media, double frequencia) {
+    public static String obterSituacao(double media, double frequencia) {
         if (media >= 6.0 && frequencia >= 75.0) {
             return "Aprovado";
         } else if (frequencia < 75.0) {
@@ -78,6 +85,7 @@ public class Relatorio {
                     somaNotas += media;
                 }
             }
+
             double mediaGeral = totalAlunos > 0 ? somaNotas / totalAlunos : 0;
             System.out.printf("Alunos: %d | Aprovados: %d | Reprovados: %d | Média: %.2f\n",
                     totalAlunos, aprovados, reprovados, mediaGeral);
@@ -99,7 +107,7 @@ public class Relatorio {
     public static void gerarRelatorioPorProfessor(List<Turma> turmas) {
         System.out.println("Relatório por professor:");
         for (Turma turma : turmas) {
-            System.out.println("Professor: " + turma.getProfessor() + " | Turma: " + turma.getCodigo());
+            System.out.println("Professor: " + turma.getProfessor().getNome() + " | Turma: " + turma.getCodigo());
         }
     }
 }
