@@ -85,7 +85,7 @@ public class Main {
 
         while (!entradaValida) {
             System.out.print("Carga horária da disciplina (em horas): ");
-            String entrada = scanner.nextLine().replaceAll("[^\\d]", ""); // Remove tudo que não for número
+            String entrada = scanner.nextLine().replaceAll("[^\\d]", ""); 
             try {
                 cargaHoraria = Integer.parseInt(entrada);
                 entradaValida = true;
@@ -314,14 +314,8 @@ public class Main {
         String presenca = scanner.nextLine();
 
         boolean presente = presenca.equalsIgnoreCase("s");
-        // Adiciona presença para o aluno na disciplina
-        // Como não há método registrarPresenca(boolean), vamos incrementar presenças manualmente
-        // ou implementar um método adequado se necessário
-        // Exemplo simples:
-        // aluno.registrarPresenca(presente);
+      
         if (presente) {
-            // Incrementa o campo presencas do aluno
-            // (Você pode querer um controle mais detalhado por disciplina/turma)
             try {
                 java.lang.reflect.Field f = aluno.getClass().getSuperclass().getDeclaredField("presencas");
                 f.setAccessible(true);
