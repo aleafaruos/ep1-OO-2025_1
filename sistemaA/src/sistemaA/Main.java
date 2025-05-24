@@ -170,24 +170,21 @@ public class Main {
         }
 
         System.out.println("Disciplinas disponíveis:");
-        for (int i = 0; i < disciplinasDisponiveis.size(); i++) {
-            System.out.println((i + 1) + ". " + disciplinasDisponiveis.get(i).getNome());
+        for (Disciplina d : disciplinasDisponiveis) {
+            System.out.println("- Código: " + d.getCodigo() + " | Nome: " + d.getNome());
         }
 
-        System.out.println("Digite os números das disciplinas que o aluno vai cursar, separados por vírgula:");
+        System.out.println("Digite os códigos das disciplinas que o aluno vai cursar, separados por vírgula:");
         String input = scanner.nextLine();
         String[] partes = input.split(",");
         List<String> disciplinasAluno = new ArrayList<>();
         for (String parte : partes) {
-            try {
-                int indice = Integer.parseInt(parte.trim()) - 1;
-                if (indice >= 0 && indice < disciplinasDisponiveis.size()) {
-                    disciplinasAluno.add(disciplinasDisponiveis.get(indice).getCodigo());
-                } else {
-                    System.out.println("Número inválido ignorado: " + (indice + 1));
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida ignorada: " + parte);
+            String codigo = parte.trim();
+            Disciplina disc = sistema.buscarDisciplinaPorCodigo(codigo);
+            if (disc != null) {
+                disciplinasAluno.add(disc.getCodigo());
+            } else {
+                System.out.println("Código de disciplina inválido ignorado: " + codigo);
             }
         }
 
@@ -217,7 +214,7 @@ public class Main {
     private static void matricularAlunoEmTurma() {
         System.out.print("Matrícula do aluno: ");
         int matricula = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consome a quebra de linha
 
         Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
@@ -226,8 +223,7 @@ public class Main {
         }
 
         System.out.print("Código da turma: ");
-        String codigoTurma = scanner.nextLine();  
-        scanner.nextLine();
+        String codigoTurma = scanner.nextLine();
 
         Turma turma = sistema.buscarTurmaPorCodigo(codigoTurma);
         if (turma == null) {
@@ -260,7 +256,7 @@ public class Main {
     private static void lancarNota() {
         System.out.print("Matrícula do aluno: ");
         int matricula = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consome a quebra de linha
 
         Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
@@ -270,7 +266,6 @@ public class Main {
 
         System.out.print("Código da disciplina da turma: ");
         String codigoDisciplina = scanner.nextLine();
-        scanner.nextLine();
 
         Disciplina disciplina = sistema.buscarDisciplinaPorCodigo(codigoDisciplina);
         if (disciplina == null) {
@@ -283,7 +278,7 @@ public class Main {
 
         System.out.print("Nota da avaliação: ");
         double nota = scanner.nextDouble();
-        scanner.nextLine();
+        scanner.nextLine(); // Consome a quebra de linha
 
         Avaliacao avaliacao = new Avaliacao(disciplina, nomeAvaliacao, nota);
         aluno.adicionarAvaliacao(avaliacao);
