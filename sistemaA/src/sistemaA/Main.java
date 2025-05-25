@@ -214,7 +214,7 @@ public class Main {
     private static void matricularAlunoEmTurma() {
         System.out.print("Matrícula do aluno: ");
         int matricula = scanner.nextInt();
-        scanner.nextLine(); // Consome a quebra de linha
+        scanner.nextLine();
 
         Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
@@ -256,7 +256,7 @@ public class Main {
     private static void lancarNota() {
         System.out.print("Matrícula do aluno: ");
         int matricula = scanner.nextInt();
-        scanner.nextLine(); // Consome a quebra de linha
+        scanner.nextLine(); 
 
         Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
@@ -278,7 +278,7 @@ public class Main {
 
         System.out.print("Nota da avaliação: ");
         double nota = scanner.nextDouble();
-        scanner.nextLine(); // Consome a quebra de linha
+        scanner.nextLine(); 
 
         Avaliacao avaliacao = new Avaliacao(disciplina, nomeAvaliacao, nota);
         aluno.adicionarAvaliacao(avaliacao);
