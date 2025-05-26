@@ -80,6 +80,7 @@ public class Turma {
     public void registrarPresenca(int matriculaAluno) {
         if (presencas.containsKey(matriculaAluno)) {
             presencas.put(matriculaAluno, presencas.get(matriculaAluno) + 1);
+            totalAulas++; 
         }
     }
 

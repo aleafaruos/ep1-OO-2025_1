@@ -305,21 +305,26 @@ public class Main {
             return;
         }
 
+        
+        Turma turmaEncontrada = null;
+        for (Turma turma : sistema.getTurmas()) {
+            if (turma.getDisciplina().getCodigo().equals(codigoDisciplina)
+                && turma.getAlunosMatriculados().contains(aluno)) {
+                turmaEncontrada = turma;
+                break;
+            }
+        }
+        if (turmaEncontrada == null) {
+            System.out.println("Turma não encontrada para o aluno e disciplina informados.");
+            return;
+        }
+
         System.out.print("Aluno presente? (s/n): ");
         String presenca = scanner.nextLine();
 
         boolean presente = presenca.equalsIgnoreCase("s");
-      
         if (presente) {
-            try {
-                java.lang.reflect.Field f = aluno.getClass().getSuperclass().getDeclaredField("presencas");
-                f.setAccessible(true);
-                int valorAtual = f.getInt(aluno);
-                f.setInt(aluno, valorAtual + 1);
-            } catch (Exception e) {
-                System.out.println("Erro ao registrar presença: " + e.getMessage());
-                return;
-            }
+            turmaEncontrada.registrarPresenca(aluno.getMatricula());
         }
         System.out.println("Presença registrada.");
     }

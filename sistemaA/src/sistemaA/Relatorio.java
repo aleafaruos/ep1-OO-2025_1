@@ -11,8 +11,10 @@ public class Relatorio {
         int totalAulas = turma.getTotalAulas();
 
         for (Aluno aluno : alunos) {
-            double media = calcularMedia(aluno, turma);
-            double frequencia = calcularFrequencia(aluno, totalAulas);
+            
+            double media = aluno.calcularMediaPorDisciplina(turma.getDisciplina().getCodigo());
+            int presencas = turma.getPresencas(aluno.getMatricula());
+            double frequencia = (totalAulas > 0) ? (presencas * 100.0) / totalAulas : 0.0;
             String situacao = "Indefinido";
             try {
                 situacao = obterSituacao(media, frequencia);
@@ -34,7 +36,7 @@ public class Relatorio {
         for (Avaliacao a : avaliacoes) {
             if (!a.getDisciplina().equals(turma.getDisciplina())) continue;
 
-            switch (a.getTipo()) {
+            switch (a.getNomeAvaliacao()) {
                 case "P1": p1 = a.getNota(); break;
                 case "P2": p2 = a.getNota(); break;
                 case "P3": p3 = a.getNota(); break;
@@ -74,9 +76,9 @@ public class Relatorio {
             int totalAlunos = 0;
 
             for (Aluno a : alunos) {
-                if (a.getDisciplinas().contains(d)) {
+                if (a.getDisciplinas().contains(d.getCodigo())) {
                     totalAlunos++;
-                    double media = calcularMediaAlunoDisciplina(a, d);
+                    double media = a.calcularMediaPorDisciplina(d.getCodigo());
                     if (media >= 6.0) {
                         aprovados++;
                     } else {
@@ -90,18 +92,6 @@ public class Relatorio {
             System.out.printf("Alunos: %d | Aprovados: %d | Reprovados: %d | Média: %.2f\n",
                     totalAlunos, aprovados, reprovados, mediaGeral);
         }
-    }
-
-    private static double calcularMediaAlunoDisciplina(Aluno aluno, Disciplina disciplina) {
-        double soma = 0;
-        int count = 0;
-        for (Avaliacao a : aluno.getAvaliacoes()) {
-            if (a.getDisciplina().equals(disciplina)) {
-                soma += a.getNota();
-                count++;
-            }
-        }
-        return count > 0 ? soma / count : 0;
     }
 
     public static void gerarRelatorioPorProfessor(List<Turma> turmas) {
