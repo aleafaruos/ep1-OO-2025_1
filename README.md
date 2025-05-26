@@ -9,26 +9,37 @@ O enunciado do trabalho pode ser encontrado aqui:
 
 ## Dados do Aluno
 
-- **Nome completo:** [Preencher aqui]
-- **Matrícula:** [Preencher aqui]
-- **Curso:** [Preencher aqui]
-- **Turma:** [Preencher aqui]
+- **Nome completo:** Rafaela Santos Cerqueira
+- **Matrícula:** 242015700
+- **Curso:** engenharias
+- **Turma:** 6
 
 ---
 
 ## Instruções para Compilação e Execução
 
 1. **Compilação:**  
-   [Descrever aqui como compilar o projeto. Exemplo: `javac Main.java` ou o script usado]
+   Para compilar o projeto, que utiliza a estrutura de módulos do Java, é necessário estar no diretório raiz do projeto (onde as pastas src e lib se encontram). A compilação é realizada 
+   executando o seguinte comando no terminal: javac -d bin src/sistemaA/*.java src/sistemaA/**/*.java module-info.java. Este comando é responsável por direcionar todos os arquivos 
+   .class compilados para a pasta bin, além de compilar todos os arquivos .java localizados dentro de src/sistemaA e suas subpastas, e também o arquivo module-info.java, garantindo que 
+   todas as classes sejam processadas corretamente.
 
 2. **Execução:**  
-   [Descrever aqui como executar o projeto. Exemplo: `java Main` ou o script usado]
+   Após a compilação ser concluída com sucesso, o programa pode ser executado a partir do diretório raiz do projeto. Para isso, utilize o seguinte comando no terminal: java -p bin -m 
+   sistemaA/sistemaA.Main. Este comando define o "caminho de módulos" para a execução, apontando para a pasta bin onde se encontram os arquivos compilados do projeto, e especifica que a 
+   classe principal a ser iniciada é sistemaA.Main, que está localizada dentro do módulo sistemaA.
 
 3. **Estrutura de Pastas:**  
-   [Descrever aqui as principais pastas do projeto]
+    estrutura de pastas do projeto está organizada em três principais diretórios: src, onde se encontram os arquivos .java com o código-fonte dividido em pacotes; bin, que armazena os       arquivos .class compilados; e .settings, que contém configurações específicas do projeto. Além disso, na raiz do projeto estão os arquivos de configuração, como .classpath          
+    (essencial para o caminho de classes), .project (informações do projeto), e .gitignore (para controle de versão). Dentro da pasta src/sistemaA, estão todas as classes Java 
+    responsáveis pela lógica do sistema, incluindo Aluno, Disciplina, Turma, Avaliacao, Relatorio, SistemaAcademico e a classe Main. O arquivo module-info.java também está presente na 
+    raiz do módulo, definindo as características do módulo Java.
 
 3. **Versão do JAVA utilizada:**  
-   [Descrever aqui como versão do JAVA utilizada no projeto. Sugestão: `java 21`]
+   A versão do JAVA utilizada para o desenvolvimento inicial e para rodar o projeto nos primeiros momentos foi a Java SE 17. No entanto, para melhor compatibilidade e para resolver 
+   questões relacionadas ao ambiente de desenvolvimento, o projeto foi migrado e atualmente utiliza a Java SE 21.
+
+
 
 ---
 
@@ -41,13 +52,16 @@ O enunciado do trabalho pode ser encontrado aqui:
 ## Prints da Execução
 
 1. Menu Principal:  
-   ![Inserir Print 1](caminho/do/print1.png)
+   ![image](https://github.com/user-attachments/assets/72965c1f-d9b8-49a1-a6c0-0c20e7fe2fb3)
+
 
 2. Cadastro de Aluno:  
-   ![Inserir Print 2](caminho/do/print2.png)
+   ![image](https://github.com/user-attachments/assets/cbd797b8-d952-4af9-bdc9-48c4929d38dd)
+
 
 3. Relatório de Frequência/Notas:  
-   ![Inserir Print 3](caminho/do/print3.png)
+   ![image](https://github.com/user-attachments/assets/b9a59555-3123-4557-87ba-b60b5f39da81)
+
 
 ---
 
@@ -67,10 +81,10 @@ O enunciado do trabalho pode ser encontrado aqui:
 
 ## Observações (Extras ou Dificuldades)
 
-- [Espaço para o aluno comentar qualquer funcionalidade extra que implementou, dificuldades enfrentadas, ou considerações importantes.]
+Durante o desenvolvimento do projeto, enfrentei diversas dificuldades relacionadas à utilização da biblioteca Gson para persistência dos dados. Apesar de ter criado uma classe de persistência para controlar esse processo, o Gson não funcionou corretamente em nenhum momento, mesmo após várias tentativas, incluindo a atualização da versão do Java de 17 para 21, na tentativa de resolver o problema. Como já havia feito várias alterações nas outras classes para adaptar o sistema ao uso do Gson, optei por manter a estrutura da classe de persistência, mesmo sem o funcionamento ideal da biblioteca. Além disso, a diferença entre a sintaxe e o modo de funcionamento do Java em comparação com outras linguagens que já utilizei tornou o processo mais desafiador, exigindo bastante para a adaptação e implementação do sistema.
 
 ---
 
 ## Contato
 
-- [Opcional: E-mail pessoal do aluno.]
+- 242015700@aluno.unb.br
